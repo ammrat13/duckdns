@@ -1,0 +1,20 @@
+#!/bin/sh
+
+logger --tag duckdns --priority info "Updating DuckDNS entries"
+EXITCODE=0
+
+for file in /etc/duckdns.d/*.cfg
+do
+    logger --tag duckdns --priority info "Executing config file '${file}'"
+    source "${file}"
+
+    OUTPUT=$(curl --silent "https://www.duckdns.org/update?domains=${duckdns_hostname}&token=${duckdns_token}")
+    logger --tag duckdns --priority info "Result: ${OUTPUT}"
+
+    if [[ "${OUTPUT}" == "KO" ]]; then
+        logger --tag duckdns --priority err "You should check if your domain and token are correct in '${file}'"
+        EXITCODE=1
+    fi
+done
+
+exit $EXITCODE

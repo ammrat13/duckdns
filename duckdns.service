@@ -1,5 +1,7 @@
 [Unit]
 Description=DuckDNS update job
+After=network-online.target
+Wants=network-online.target
 
 [Install]
 WantedBy=multi-user.target

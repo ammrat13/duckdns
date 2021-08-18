@@ -1,8 +1,10 @@
 [Unit]
-Description=Run DuckDNS every 5 minutes
+Description=Run DuckDNS every 60-70 minutes from boot
 
 [Timer]
-OnCalendar=*:0/15
+OnBootSec=0
+OnUnitActiveSec=1h
+RandomizedDelaySec=10m
 
 [Install]
 WantedBy=timers.target
